@@ -4,6 +4,7 @@ import com.mobile.project_v1.application.dto.product.ProductCreateRequestDTO;
 import com.mobile.project_v1.application.dto.product.ProductDTO;
 import com.mobile.project_v1.application.dto.product.ProductUpdateRequestDTO;
 import com.mobile.project_v1.domain.models.Product;
+import com.mobile.project_v1.domain.service.ImageService;
 import com.mobile.project_v1.domain.service.ProductService;
 import com.mobile.project_v1.presentation.mapper.ProductMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +22,16 @@ public class ProductApplicationService {
     private ProductService productService;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private ImageService imageService;
 
     public ProductDTO createProduct(ProductCreateRequestDTO productCreateRequestDTO) {
-        Product product = productMapper.convertProductCreateRequestDTOToProduct(productCreateRequestDTO);
+        String productImage = imageService.saveImage(productCreateRequestDTO.getImage());
+        Product product = productMapper.convertProductCreateRequestDTOToProduct(productCreateRequestDTO,productImage);
         log.info("Product {}", product.toString());
         Product productSave = productService.createProduct(product);
         log.info("ProductSave {}", productSave.toString());
+
         return productMapper.convertProductToProductDTO(productSave);
     }
 

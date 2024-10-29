@@ -15,10 +15,11 @@ public class ProductMapper {
     private ModelMapper modelMapper;
 
     // chuyển từ CreateProductRequest(dau vao) sang Product Entity
-    public Product convertProductCreateRequestDTOToProduct(ProductCreateRequestDTO createProductRequest) {
+    public Product convertProductCreateRequestDTOToProduct(ProductCreateRequestDTO createProductRequest, String imageUrl) {
         return Product.builder()
                 .name(createProductRequest.getName())
                 .price(createProductRequest.getPrice())
+                .image(imageUrl)
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .price(product.getPrice())
+                .image(product.getImage())
                 .build();
     }
 
