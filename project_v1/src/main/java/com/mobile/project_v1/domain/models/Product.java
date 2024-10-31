@@ -14,5 +14,10 @@ public class Product {
     private Integer id;
     private String name;
     private Double price;
-    private String image;
+//    private String image;
+
+    @ManyToOne
+    @JoinColumn(name="idImage")
+    private Image image;
+
 }

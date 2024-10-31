@@ -3,6 +3,7 @@ package com.mobile.project_v1.application.service;
 import com.mobile.project_v1.application.dto.product.ProductCreateRequestDTO;
 import com.mobile.project_v1.application.dto.product.ProductDTO;
 import com.mobile.project_v1.application.dto.product.ProductUpdateRequestDTO;
+import com.mobile.project_v1.domain.models.Image;
 import com.mobile.project_v1.domain.models.Product;
 import com.mobile.project_v1.domain.service.ImageService;
 import com.mobile.project_v1.domain.service.ProductService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -25,8 +27,9 @@ public class ProductApplicationService {
     @Autowired
     private ImageService imageService;
 
-    public ProductDTO createProduct(ProductCreateRequestDTO productCreateRequestDTO) {
-        String productImage = imageService.saveImage(productCreateRequestDTO.getImage());
+    public ProductDTO createProduct(ProductCreateRequestDTO productCreateRequestDTO) throws IOException {
+//        String productImage = imageService.saveImage(productCreateRequestDTO.getImage());
+        Image productImage = imageService.addImage(productCreateRequestDTO.getImage());
         Product product = productMapper.convertProductCreateRequestDTOToProduct(productCreateRequestDTO,productImage);
         log.info("Product {}", product.toString());
         Product productSave = productService.createProduct(product);
